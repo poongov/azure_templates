@@ -1,1 +1,6 @@
 Run it as:
+New-AzureRmResourceGroupDeployment -Name 'nsgdeployment' -ResourceGroupName arm_rg -TemplateUri https://github.com/poongov/azure_templates/blob/master/2-NSG/single_NSG.json
+
+(or)
+
+New-AzureRmResourceGroupDeployment -Name 'nsgdeployment' -ResourceGroupName arm_rg -TemplateFile C:\azure\arm\templates\4.single_NSG.json
