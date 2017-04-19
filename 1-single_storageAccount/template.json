@@ -1,0 +1,41 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageNamePrefix": {
+        "type": "string",
+        "maxLength": 11,
+        "defaultValue": "storage",
+        "metadata": {
+            "description": "The value to use for starting the storage account name. Note: The name must be between 3 and 24 char in length, use only numbers and lower-case letters, and be unique. Rather than trying to guess a unique value that matches the restrictions, use the uniqueString function to generate a hash value. The prefix is limited to a max of 11 char, cos uniqueString returns 13 char, and the name cannot exceed 24 char. If you do not pass in a value for the param during deployment, the default value is used."
+            }
+    },
+    "storageSKU": {
+        "type": "string",
+        "allowedValues": ["Standard_LRS","Standard_ZRS","Standard_GRS","Standard_RAGRS","Premium_LRS"],
+        "defaultValue": "Standard_LRS",
+        "metadata": {
+            "description": "It is the storage type. The type of replication to use for the storage account."
+        }
+    }
+},
+"variables": {
+    "storageName": "[concat(parameters('storageNamePrefix'), uniqueString(resourceGroup().id))]"
+},
+"resources": [
+    {
+        "name": "[variables('storageName')]",
+        "type": "Microsoft.Storage/storageAccounts",
+        "apiVersion": "2016-01-01",
+        "sku": {
+            "name": "[parameters('storageSKU')]"
+        },
+        "kind": "Storage",
+        "location": "[resourceGroup().location]",
+        "tags": {"storage":"armMode"},
+        "properties": {
+        }
+    }
+ ],
+ "outputs": {  }
+}
